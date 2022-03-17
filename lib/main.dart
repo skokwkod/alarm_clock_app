@@ -1,7 +1,9 @@
 import 'package:alarm_clock_app/custom_widgets/custom_number_picker.dart';
+import 'package:alarm_clock_app/models/clocks_class.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_analog_clock/flutter_analog_clock.dart';
 import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
+import 'package:flutter_beep/flutter_beep.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,8 +19,7 @@ class AlarmClock extends StatefulWidget {
 }
 
 class _AlarmClockState extends State<AlarmClock> {
-  int _hoursValue = 5;
-  int _minValue = 30;
+  ClockClass clock = new ClockClass(15, 15);
 
   @override
   Widget build(BuildContext context) {
@@ -71,17 +72,7 @@ class _AlarmClockState extends State<AlarmClock> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         CustomNumberPicker(
-                          value: _hoursValue,
-                          minValue: 0,
-                          maxValue: 24,
-                          text: 'Ustaw Godzinę',
-                        ),
-                        CustomNumberPicker(
-                          value: _minValue,
-                          minValue: 0,
-                          maxValue: 60,
-                          text: 'Ustaw Minuty',
-                        ),
+                            clock: clock),
                       ],
                     )),
               )
@@ -90,9 +81,14 @@ class _AlarmClockState extends State<AlarmClock> {
         ),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
-            print('touched');
+            print('touched   ' +
+                clock.hours.toString() +
+                ":" +
+                clock.minutes.toString());
             AndroidAlarmManager.oneShotAt(
-                DateTime(2022, 3, 16, 15, 02), 0, callHello);
+                DateTime(2022, 3, 17, clock.hours, clock.minutes, 0, 0),
+                0,
+                callHello);
           },
           icon: const Icon(Icons.alarm_add),
           label: const Text('Dodaj Budzik'),
@@ -114,5 +110,6 @@ class _AlarmClockState extends State<AlarmClock> {
 
   static void callHello() {
     print('done' + DateTime.now().toString());
+    FlutterBeep.beep();
   }
 }
