@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:alarm_clock_app/custom_widgets/custom_number_picker.dart';
 import 'package:alarm_clock_app/models/clocks_class.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,12 @@ class AlarmClock extends StatefulWidget {
 }
 
 class _AlarmClockState extends State<AlarmClock> {
-  ClockClass clock = new ClockClass(15, 15);
+  ClockClass clock = ClockClass(
+    int.parse(
+        DateFormat.jm().format(DateTime.now()).toString().substring(0, 2)),
+    int.parse(
+        DateFormat.jm().format(DateTime.now()).toString().substring(3, 5)),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -71,8 +77,7 @@ class _AlarmClockState extends State<AlarmClock> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        CustomNumberPicker(
-                            clock: clock),
+                        CustomNumberPicker(clock: clock),
                       ],
                     )),
               )
@@ -102,6 +107,7 @@ class _AlarmClockState extends State<AlarmClock> {
   void initState() {
     super.initState();
     print('initialize');
+    print(DateFormat.jm().format(DateTime.now()).toString().substring(0, 2));
   }
 
   void onHoursChange(int value) {
