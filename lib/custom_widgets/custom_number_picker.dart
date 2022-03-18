@@ -19,30 +19,32 @@ class _CustomNumberPickerState extends State<CustomNumberPicker> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Container(
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-              border: Border.all(width: 2),
-              borderRadius: BorderRadius.all(Radius.circular(10))),
-          child: Row(
-            children: [
-              Column(
-                children: [
-                  Text("Ustaw Godzinę"),
-                  NumberPicker(
-                      minValue: 0,
-                      maxValue: 24,
-                      value: widget.clock.hours,
-                      axis: Axis.horizontal,
-                      onChanged: (newValue) {
-                        setState(() {
-                          print('change value');
-                          widget.clock.hours = newValue;
-                        });
-                      }),
-                ],
-              ),
-            ],
+        Card(
+          child: Container(
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+                border: Border.all(width: 2),
+                borderRadius: BorderRadius.all(Radius.circular(10))),
+            child: Row(
+              children: [
+                Column(
+                  children: [
+                    Text("Ustaw Godzinę"),
+                    NumberPicker(
+                        minValue: 0,
+                        maxValue: 24,
+                        value: widget.clock.hours,
+                        axis: Axis.horizontal,
+                        infiniteLoop: true,
+                        onChanged: (newValue) {
+                          setState(() {
+                            widget.clock.hours = newValue;
+                          });
+                        }),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
         Container(
@@ -60,6 +62,7 @@ class _CustomNumberPickerState extends State<CustomNumberPicker> {
                       maxValue: 60,
                       value: widget.clock.minutes,
                       axis: Axis.horizontal,
+                      infiniteLoop: true,
                       onChanged: (newValue) {
                         setState(() {
                           print('change value');
