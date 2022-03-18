@@ -24,10 +24,12 @@ class AlarmClock extends StatefulWidget {
 }
 
 class _AlarmClockState extends State<AlarmClock> {
-  ClockClass clock = ClockClass(
-    int.parse(DateFormat("HH").format(DateTime.now()).toString()),
-    int.parse(DateFormat("mm").format(DateTime.now()).toString()),
-  );
+  List<ClockClass> clocks = [
+    ClockClass(
+      int.parse(DateFormat("HH").format(DateTime.now()).toString()),
+      int.parse(DateFormat("mm").format(DateTime.now()).toString()),
+    )
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +38,8 @@ class _AlarmClockState extends State<AlarmClock> {
         title: Text('Twoje Alarmy'),
       ),
       body: Container(
-        height: double.infinity,
-        width: double.infinity,
+        height: MediaQuery.of(context).size.height - 50,
+        width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           image: DecorationImage(
             colorFilter: ColorFilter.mode(
@@ -67,6 +69,22 @@ class _AlarmClockState extends State<AlarmClock> {
                 ],
               ),
             ),
+            Expanded(
+              child: ListView.builder(
+                  itemCount: clocks.length,
+                  itemBuilder: (context, index) {
+                    return Card(
+                      child: ListBody(
+                        children: [
+                          Text("budzik: " +
+                              clocks[index].hours.toString() +
+                              ":" +
+                              clocks[index].minutes.toString())
+                        ],
+                      ),
+                    );
+                  }),
+            )
           ],
         ),
       ),
@@ -76,7 +94,7 @@ class _AlarmClockState extends State<AlarmClock> {
           //     DateTime(2022, 3, 17, clock.hours, clock.minutes, 0, 0),
           //     0,
           //     callHello);
-
+          clocks.add(new ClockClass(10, 33));
           showModalBottomSheet(
               context: context,
               builder: (BuildContext context) {
@@ -91,10 +109,15 @@ class _AlarmClockState extends State<AlarmClock> {
                         children: [
                           Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: CustomNumberPicker(clock: clock),
+                            child: CustomNumberPicker(clock: clocks.last),
                           ),
                         ],
                       ),
+                      MaterialButton(
+                          child: Text('Zapisz'),
+                          onPressed: () {
+                            setState(() {});
+                          })
                     ],
                   ),
                 );

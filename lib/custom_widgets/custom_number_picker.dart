@@ -24,12 +24,12 @@ class _CustomNumberPickerState extends State<CustomNumberPicker> {
             alignment: Alignment.center,
             decoration: BoxDecoration(
                 border: Border.all(width: 2),
-                borderRadius: BorderRadius.all(Radius.circular(10))),
+                borderRadius: const BorderRadius.all(Radius.circular(10))),
             child: Row(
               children: [
                 Column(
                   children: [
-                    Text("Ustaw Godzinę"),
+                    const Text("Ustaw Godzinę"),
                     NumberPicker(
                         minValue: 0,
                         maxValue: 24,
