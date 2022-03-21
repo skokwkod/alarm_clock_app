@@ -72,7 +72,7 @@ class _AlarmClockState extends State<AlarmClock> {
               child: ListView.builder(
                   itemCount: clocks.length,
                   itemBuilder: (context, index) {
-                    return CustomListAlarm(clocks[index]);
+                    return CustomListAlarm(clocks[index], index);
                   }),
             )
           ],
@@ -84,6 +84,7 @@ class _AlarmClockState extends State<AlarmClock> {
           //     DateTime(2022, 3, 17, clock.hours, clock.minutes, 0, 0),
           //     0,
           //     callHello);
+          clocks.add(setClockClass());
           showModalBottomSheet(
               context: context,
               builder: (BuildContext context) {
@@ -122,18 +123,9 @@ class _AlarmClockState extends State<AlarmClock> {
   @override
   void initState() {
     super.initState();
-    print('initialize');
     print(DateFormat.jm().format(DateTime.now()).toString().substring(0, 2));
   }
 
-  void onHoursChange(int value) {
-    print('change hours');
-  }
-
-  static void callHello() {
-    print('done' + DateTime.now().toString());
-    FlutterBeep.beep();
-  }
 
   ClockClass setClockClass() {
     return ClockClass(

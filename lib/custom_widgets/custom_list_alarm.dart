@@ -1,9 +1,13 @@
+import 'package:alarm_clock_app/models/clocks_class.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
+import 'custom_number_picker.dart';
 
 class CustomListAlarm extends StatefulWidget {
-  CustomListAlarm(this.clock, {Key? key}) : super(key: key);
-
-  var clock;
+  CustomListAlarm(this.clock, this.index, {Key? key}) : super(key: key);
+  int index;
+  ClockClass clock;
 
   @override
   State<CustomListAlarm> createState() => _CustomListAlarmState();
@@ -11,6 +15,20 @@ class CustomListAlarm extends StatefulWidget {
 
 class _CustomListAlarmState extends State<CustomListAlarm> {
   bool _enable = true;
+  DateTime alarmHours = DateTime.now();
+
+  void _SetDateTime() {
+    final formatter = DateFormat.HOUR24_MINUTE;
+    final String formatted;
+
+    alarmHours =
+        DateTime(2022, 3, 21, widget.clock.hours, widget.clock.minutes);
+  }
+
+  @override
+  void initState() {
+    _SetDateTime();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +41,7 @@ class _CustomListAlarmState extends State<CustomListAlarm> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Text(
-              widget.clock.hours.toString() +
-                  ":" +
-                  widget.clock.minutes.toString(),
+              DateFormat("HH:mm").format(alarmHours).toString(),
               style: TextStyle(fontSize: 30),
             ),
             Row(
@@ -33,12 +49,47 @@ class _CustomListAlarmState extends State<CustomListAlarm> {
                 Switch(
                     value: _enable,
                     onChanged: (value) {
-                      print("VALUE : $value");
                       setState(() {
                         _enable = value;
                       });
                     }),
-                IconButton(onPressed: () {}, icon: Icon(Icons.edit)),
+                IconButton(
+                    onPressed: () {
+                      showModalBottomSheet(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Container(
+                              height: MediaQuery.of(context).size.height * 0.5,
+                              color: Colors.grey,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: CustomNumberPicker(
+                                            clock: widget.clock),
+                                      ),
+                                    ],
+                                  ),
+                                  MaterialButton(
+                                      child: Text('Zapisz'),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                        setState(() {
+                                          widget.clock = CustomNumberPicker(
+                                                  clock: widget.clock)
+                                              .returnClock();
+                                        });
+                                      })
+                                ],
+                              ),
+                            );
+                          });
+                    },
+                    icon: Icon(Icons.edit)),
                 IconButton(onPressed: () {}, icon: Icon(Icons.cancel)),
               ],
             ),

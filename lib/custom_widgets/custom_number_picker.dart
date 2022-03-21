@@ -10,6 +10,10 @@ class CustomNumberPicker extends StatefulWidget {
 
   ClockClass clock;
 
+  ClockClass returnClock() {
+    return clock;
+  }
+
   @override
   _CustomNumberPickerState createState() => _CustomNumberPickerState();
 }
@@ -39,6 +43,9 @@ class _CustomNumberPickerState extends State<CustomNumberPicker> {
                         onChanged: (newValue) {
                           setState(() {
                             widget.clock.hours = newValue;
+                            changeClock(
+                                widget.clock, newValue, widget.clock.minutes);
+                            print(widget.clock.hours);
                           });
                         }),
                   ],
@@ -58,14 +65,13 @@ class _CustomNumberPickerState extends State<CustomNumberPicker> {
                 children: [
                   Text("Ustaw Minuty"),
                   NumberPicker(
-                      minValue: 0,
+                      minValue: 00,
                       maxValue: 60,
                       value: widget.clock.minutes,
                       axis: Axis.horizontal,
                       infiniteLoop: true,
                       onChanged: (newValue) {
                         setState(() {
-                          print('change value');
                           widget.clock.minutes = newValue;
                         });
                       }),
