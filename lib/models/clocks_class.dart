@@ -1,4 +1,9 @@
+import 'dart:async';
+
 class ClockClass {
+  final _controller = StreamController<List<ClockClass>>();
+
+  Stream<List<ClockClass>> contentModelStream() => _controller.stream;
   int hours;
   int minutes;
   bool enabled;
@@ -15,3 +20,5 @@ void changeClock(ClockClass clock, int newHours, int newMinutes) {
   clock.hours = newHours;
   clock.minutes = newMinutes;
 }
+
+//TODO: przejrzyj https://tousu.in/qa/?qa=334949/

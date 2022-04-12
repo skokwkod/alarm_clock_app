@@ -72,6 +72,7 @@ class _CustomNumberPickerState extends State<CustomNumberPicker> {
                       infiniteLoop: true,
                       onChanged: (newValue) {
                         setState(() {
+                          print('change minute');
                           widget.clock.minutes = newValue;
                         });
                       }),

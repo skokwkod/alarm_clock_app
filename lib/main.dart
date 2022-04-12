@@ -72,7 +72,11 @@ class _AlarmClockState extends State<AlarmClock> {
               child: ListView.builder(
                   itemCount: clocks.length,
                   itemBuilder: (context, index) {
-                    return CustomListAlarm(clocks[index], index);
+                    return GestureDetector(
+                        onTap: () {
+                          print(clocks[index].minutes);
+                        },
+                        child: CustomListAlarm(clocks[index], index));
                   }),
             )
           ],
@@ -106,7 +110,9 @@ class _AlarmClockState extends State<AlarmClock> {
                       MaterialButton(
                           child: Text('Zapisz'),
                           onPressed: () {
-                            setState(() {});
+                            setState(() {
+                              Navigator.of(context).pop();
+                            });
                           })
                     ],
                   ),
@@ -125,7 +131,6 @@ class _AlarmClockState extends State<AlarmClock> {
     super.initState();
     print(DateFormat.jm().format(DateTime.now()).toString().substring(0, 2));
   }
-
 
   ClockClass setClockClass() {
     return ClockClass(

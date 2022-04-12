@@ -77,17 +77,22 @@ class _CustomListAlarmState extends State<CustomListAlarm> {
                                   MaterialButton(
                                       child: Text('Zapisz'),
                                       onPressed: () {
-                                        Navigator.of(context).pop();
                                         setState(() {
-                                          widget.clock = CustomNumberPicker(
+                                          CustomNumberPicker(
                                                   clock: widget.clock)
                                               .returnClock();
                                         });
+                                        print(CustomNumberPicker(
+                                                clock: widget.clock)
+                                            .returnClock()
+                                            .minutes);
+                                        Navigator.of(context).pop();
                                       })
                                 ],
                               ),
                             );
                           });
+                      // Navigator.of(context).pop();
                     },
                     icon: Icon(Icons.edit)),
                 IconButton(onPressed: () {}, icon: Icon(Icons.cancel)),
